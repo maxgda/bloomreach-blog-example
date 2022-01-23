@@ -1,0 +1,54 @@
+{
+  "name": "Post",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "PublicationStatus",
+      "fieldValues": "PUBLISHED,UNPUBLISHED",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "post",
+      "relationshipName": "user",
+      "otherEntityField": "login"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "entry",
+      "relationshipName": "tag",
+      "otherEntityField": "name",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "post",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["blog"],
+  "changelogDate": "20220123213115"
+}

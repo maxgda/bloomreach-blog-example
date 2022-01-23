@@ -1,0 +1,9 @@
+{
+  "blogApp": {
+    "PublicationStatus": {
+      "null": "",
+      "PUBLISHED": "PUBLISHED",
+      "UNPUBLISHED": "UNPUBLISHED"
+    }
+  }
+}

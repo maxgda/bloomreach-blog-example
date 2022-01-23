@@ -1,0 +1,38 @@
+application {
+  config {
+    baseName blog
+    applicationType monolith
+    packageName com.jhipster.demo.blog
+    buildTool maven,
+    testFrameworks [cypress]
+  }
+  entities *
+}
+
+entity Post {
+  title String required
+  content TextBlob required
+  date Instant required
+  status PublicationStatus required
+}
+
+entity Tag {
+  name String required minlength(2)
+}
+
+enum PublicationStatus {
+	PUBLISHED,
+    UNPUBLISHED
+}
+
+filter Post
+
+relationship ManyToOne {
+  Post{user(login)} to User
+}
+
+relationship ManyToMany {
+  Post{tag(name)} to Tag{entry}
+}
+
+paginate Post, Tag with infinite-scroll
