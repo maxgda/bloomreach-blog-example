@@ -1,6 +1,7 @@
 package com.jhipster.demo.blog.web.rest;
 
 import com.jhipster.demo.blog.domain.Post;
+import com.jhipster.demo.blog.domain.enumeration.PublicationStatus;
 import com.jhipster.demo.blog.repository.PostRepository;
 import com.jhipster.demo.blog.security.SecurityUtils;
 import com.jhipster.demo.blog.service.PostQueryService;
@@ -208,5 +209,33 @@ public class PostResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/blog/published")
+    public ResponseEntity<List<Post>> getAllPublishedPosts(Pageable pageable) {
+        log.debug("REST request to get published Posts");
+        Page<Post> page = postQueryService.findByCriteria(createStatusCriteria(PublicationStatus.PUBLISHED), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/blog/unpublished")
+    public ResponseEntity<List<Post>> getAllUnpublishedPosts(Pageable pageable) {
+        log.debug("REST request to get unpublished Posts");
+        Page<Post> page = postQueryService.findByCriteria(createStatusCriteria(PublicationStatus.UNPUBLISHED), pageable);
+        return getAllPosts(page);
+    }
+
+    private ResponseEntity<List<Post>> getAllPosts(Page<Post> page) {
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    private static PostCriteria createStatusCriteria(PublicationStatus status) {
+        PostCriteria.PublicationStatusFilter filter = new PostCriteria.PublicationStatusFilter();
+        filter.setEquals(status);
+        PostCriteria criteria = new PostCriteria();
+        criteria.setStatus(filter);
+        return criteria;
     }
 }

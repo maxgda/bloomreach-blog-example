@@ -1,4 +1,4 @@
-package com.jhipster.demo.blog.service;
+package com.jhipster.demo.blog.service.errors;
 
 public class UsernameAlreadyUsedException extends RuntimeException {
 
