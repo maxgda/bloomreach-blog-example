@@ -15,6 +15,7 @@ export type EntityArrayResponseType = HttpResponse<IPost[]>;
 @Injectable({ providedIn: 'root' })
 export class PostService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/posts');
+  protected blogResourceUrl = this.applicationConfigService.getEndpointFor('api/blog');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -43,6 +44,13 @@ export class PostService {
     return this.http
       .get<IPost>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  queryPublicated(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IPost[]>(`${this.blogResourceUrl}/published`, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
