@@ -24,14 +24,6 @@
             <td>{{ post.content }}</td>
             <td>{{ post.date | formatMediumDatetime }}</td>
             <td jhiTranslate="{{ 'blogApp.PublicationStatus.' + post.status }}">{{ post.status }}</td>
-            <td class="text-right">
-              <div class="btn-group">
-                <button type="submit" [routerLink]="['/post', post.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                  <fa-icon icon="eye"></fa-icon>
-                  <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                </button>
-              </div>
-            </td>
           </tr>
         </tbody>
       </table>
