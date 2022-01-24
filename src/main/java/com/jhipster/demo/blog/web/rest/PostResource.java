@@ -162,9 +162,6 @@ public class PostResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Posts by criteria: {}", criteria);
-        StringFilter userFilter = new StringFilter();
-        userFilter.setEquals(principal.getName());
-        criteria.setUsername(userFilter);
         Page<Post> page = postQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
