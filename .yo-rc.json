@@ -44,6 +44,9 @@
     "creationTimestamp": 1642973415258,
     "jwtSecretKey": "ODY2MWUyMzhkZmFlOWIxMmJjMzA5N2NkNmI4YzI3NjQ4NDkxNGYxYjhlZmJlYWY4ODAwMjFkMjZhZjNlY2U1N2JmY2QyZGY4ZjJlMWY3ZDQ5MDIwYjVkZTQ1ZDhmYTNlOTk1NzZkM2YzYzAxYzgxNjVhZThlYzVjZDc4MWE5OTI=",
     "devServerPort": 4200,
-    "lastLiquibaseTimestamp": 1642973535000
+    "lastLiquibaseTimestamp": 1642973535000,
+    "herokuAppName": "bloomreach-blog",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "11"
   }
 }
