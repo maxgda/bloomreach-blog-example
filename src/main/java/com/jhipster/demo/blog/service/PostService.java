@@ -78,7 +78,7 @@ public class PostService {
         return postRepository.findByUserIsCurrentUser(pageable);
     }
 
-    /**<
+    /**
      * Get all the posts with eager load of many-to-many relationships.
      *
      * @return the list of entities.
