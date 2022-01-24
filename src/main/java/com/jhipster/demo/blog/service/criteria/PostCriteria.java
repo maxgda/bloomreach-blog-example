@@ -45,6 +45,7 @@ public class PostCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private StringFilter username;
     private StringFilter title;
 
     private InstantFilter date;
@@ -62,6 +63,7 @@ public class PostCriteria implements Serializable, Criteria {
     public PostCriteria(PostCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.title = other.title == null ? null : other.title.copy();
+        this.username = other.username == null ? null : other.username.copy();
         this.date = other.date == null ? null : other.date.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.userId = other.userId == null ? null : other.userId.copy();
@@ -136,6 +138,21 @@ public class PostCriteria implements Serializable, Criteria {
 
     public LongFilter getUserId() {
         return userId;
+    }
+
+    public StringFilter getUsername() {
+        return username;
+    }
+
+    public void setUsername(StringFilter username) {
+        this.username = username;
+    }
+
+    public StringFilter username() {
+        if (username == null) {
+            username = new StringFilter();
+        }
+        return username;
     }
 
     public LongFilter userId() {

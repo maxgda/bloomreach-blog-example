@@ -2,12 +2,14 @@ package com.jhipster.demo.blog.web.rest;
 
 import com.jhipster.demo.blog.domain.Post;
 import com.jhipster.demo.blog.repository.PostRepository;
+import com.jhipster.demo.blog.security.SecurityUtils;
 import com.jhipster.demo.blog.service.PostQueryService;
 import com.jhipster.demo.blog.service.PostService;
 import com.jhipster.demo.blog.service.criteria.PostCriteria;
 import com.jhipster.demo.blog.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,8 +22,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -148,8 +155,15 @@ public class PostResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of posts in body.
      */
     @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getAllPosts(PostCriteria criteria, @org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<Post>> getAllPosts(
+        Principal principal,
+        PostCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
         log.debug("REST request to get Posts by criteria: {}", criteria);
+        StringFilter userFilter = new StringFilter();
+        userFilter.setEquals(principal.getName());
+        criteria.setUsername(userFilter);
         Page<Post> page = postQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

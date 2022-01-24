@@ -75,10 +75,10 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<Post> findAll(Pageable pageable) {
         log.debug("Request to get all Posts");
-        return postRepository.findAll(pageable);
+        return postRepository.findByUserIsCurrentUser(pageable);
     }
 
-    /**
+    /**<
      * Get all the posts with eager load of many-to-many relationships.
      *
      * @return the list of entities.

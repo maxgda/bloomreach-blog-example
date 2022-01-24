@@ -98,6 +98,12 @@ public class PostQueryService extends QueryService<Post> {
                 specification =
                     specification.and(buildSpecification(criteria.getUserId(), root -> root.join(Post_.user, JoinType.LEFT).get(User_.id)));
             }
+            if (criteria.getUsername() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getUsername(), root -> root.join(Post_.user, JoinType.LEFT).get(User_.login))
+                    );
+            }
             if (criteria.getTagId() != null) {
                 specification =
                     specification.and(buildSpecification(criteria.getTagId(), root -> root.join(Post_.tags, JoinType.LEFT).get(Tag_.id)));

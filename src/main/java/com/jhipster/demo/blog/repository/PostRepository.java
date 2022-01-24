@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
     @Query("select post from Post post where post.user.login = ?#{principal.username}")
-    List<Post> findByUserIsCurrentUser();
+    Page<Post> findByUserIsCurrentUser(Pageable pageable);
 
     @Query(
         value = "select distinct post from Post post left join fetch post.tags",
